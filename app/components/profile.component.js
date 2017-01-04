@@ -9,23 +9,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var forms_1 = require('@angular/forms');
 var github_service_1 = require('../services/github.service');
 var ProfileComponent = (function () {
-    function ProfileComponent(_service) {
+    function ProfileComponent(_service, _fb) {
+        var _this = this;
         this._service = _service;
+        this._fb = _fb;
+        this.myForm = _fb.group({
+            searchuser: ['']
+        });
         this._service.getUser().subscribe(function (data) {
             console.log(data);
-        }, function (error) {
-            alert('Error while collecting user details!');
-        });
+            _this.user = data;
+        }, function (error) { alert('Error while collecting user details!'); });
+        this._service.getRepos().subscribe(function (data) {
+            console.log(data);
+            _this.repos = data;
+        }, function (error) { alert('Error while collection repos details!'); });
     }
+    ProfileComponent.prototype.searchUser = function () {
+        var _this = this;
+        console.log('Username to search in GitHub : ' + this.searchuser);
+        this._service.setUsername(this.searchuser);
+        this._service.getUser().subscribe(function (data) {
+            console.log(data);
+            _this.user = data;
+        });
+        this._service.getRepos().subscribe(function (data) {
+            console.log(data);
+            _this.repos = data;
+        });
+    };
     ProfileComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'profile',
             templateUrl: 'profile.component.html'
         }), 
-        __metadata('design:paramtypes', [github_service_1.GithubService])
+        __metadata('design:paramtypes', [github_service_1.GithubService, forms_1.FormBuilder])
     ], ProfileComponent);
     return ProfileComponent;
 }());

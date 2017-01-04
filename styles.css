@@ -7,3 +7,9 @@ h1 {
 .navbar {
 	margin-bottom: 0;
 }
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 70%;
+   }
+}

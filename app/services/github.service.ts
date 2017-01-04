@@ -12,7 +12,7 @@ export class GithubService {
     constructor( private _http: Http )
     {
         console.log( 'GithubService is ready !!!' );
-        this.username = 'itbrijesh ';
+        this.username = 'itbrijesh';
     }
 
     getUser(){
@@ -22,5 +22,18 @@ export class GithubService {
                   '&sceret_id=' + this.sceret_id;
         
         return this._http.get( url ).map( data => data.json() );
+    }
+
+    getRepos(){
+        console.log('Calling getRepo API...');
+        let url = 'https://api.github.com/users/'+ this.username.trim() + '/repos'
+                  '?client_id=' + this.client_id + 
+                  '&sceret_id=' + this.sceret_id;
+        
+        return this._http.get( url ).map( data => data.json() );
+    }
+    
+    setUsername(username: string) {
+        this.username = username;
     }
 }
